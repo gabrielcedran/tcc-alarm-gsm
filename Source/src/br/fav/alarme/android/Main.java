@@ -66,12 +66,7 @@ public class Main extends Activity {
 						}
 					}
 					if(alarmeDevice != null) {
-						try {
-							BluetoothSocket bluetoothSocket = alarmeDevice.createRfcommSocketToServiceRecord(UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66"));
-							bluetoothSocket.getOutputStream().write(1);
-						} catch (IOException e) {
-							Toast.makeText(btnScan.getContext(), "Erro ao parear!", Toast.LENGTH_SHORT).show();
-						}
+						new ConnectThread(alarmeDevice).start();
 					}
 				}
 			}
@@ -89,4 +84,41 @@ public class Main extends Activity {
             }
         }
     };
+    
+    private class ConnectThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final BluetoothDevice mmDevice;
+
+        public ConnectThread(BluetoothDevice device) {
+            // Use a temporary object that is later assigned to mmSocket,
+            // because mmSocket is final
+            BluetoothSocket tmp = null;
+            mmDevice = device;
+
+            // Get a BluetoothSocket to connect with the given BluetoothDevice
+            try {
+                // MY_UUID is the app's UUID string, also used by the server code
+                tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
+            } catch (IOException e) { }
+            mmSocket = tmp;
+        }
+
+        public void run() {
+            // Cancel discovery because it will slow down the connection
+            mBluetoothAdapter.cancelDiscovery();
+
+            try {
+                // Connect the device through the socket. This will block
+                // until it succeeds or throws an exception
+                mmSocket.connect();
+            } catch (IOException connectException) {
+                // Unable to connect; close the socket and get out
+                try {
+                    mmSocket.close();
+                } catch (IOException closeException) { }
+                return;
+            }
+            
+        }
+    }
 }
