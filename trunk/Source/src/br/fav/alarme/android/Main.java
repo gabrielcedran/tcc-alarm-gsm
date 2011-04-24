@@ -1,6 +1,7 @@
 package br.fav.alarme.android;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,9 @@ import android.widget.Toast;
 public class Main extends Activity {
 	
 	private BluetoothAdapter mBluetoothAdapter;
+    private BluetoothSocket mmSocket;
 	private final List<BluetoothDevice> lstDevices = new ArrayList<BluetoothDevice>();
+    private OutputStream outStream = null;
 	private BluetoothDevice alarmeDevice;
 	
     /** Called when the activity is first created. */
@@ -67,6 +70,22 @@ public class Main extends Activity {
 					}
 					if(alarmeDevice != null) {
 						new ConnectThread(alarmeDevice).start();
+						while(outStream == null) {
+							synchronized(this) {
+								try {
+									this.wait(1000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+						try {
+							outStream.write(1);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							outStream = null;
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -86,7 +105,6 @@ public class Main extends Activity {
     };
     
     private class ConnectThread extends Thread {
-        private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
 
         public ConnectThread(BluetoothDevice device) {
@@ -118,6 +136,13 @@ public class Main extends Activity {
                 } catch (IOException closeException) { }
                 return;
             }
+            
+            try {
+				outStream = mmSocket.getOutputStream();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             
         }
     }
