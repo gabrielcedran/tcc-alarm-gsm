@@ -2,6 +2,8 @@ package br.fav.alarme.android;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +29,12 @@ public class Main extends Activity {
 	private final List<BluetoothDevice> lstDevices = new ArrayList<BluetoothDevice>();
 	private OutputStream outStream = null;
 	private BluetoothDevice alarmeDevice;
+	private BluetoothSocket btSocket = null;
+	// Well known SPP UUID (will *probably* map to RFCOMM channel 1 (default) if
+	// not in use);
+	// see comments in onResume().
+	private static final UUID MY_UUID = UUID
+			.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 	/** Called when the activity is first created. */
 	@Override
@@ -35,7 +43,6 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 
 		final EditText txtDeviceName = (EditText) findViewById(R.id.txtDeviceName);
-		final ConnectThread[] cThread = new ConnectThread[1];
 
 		final Button btnScan = (Button) findViewById(R.id.btnScan);
 		btnScan.setOnClickListener(new Button.OnClickListener() {
@@ -76,16 +83,14 @@ public class Main extends Activity {
 					for (BluetoothDevice device : lstDevices) {
 						if (txtDeviceName.getText().toString()
 								.equals(device.getName())) {
-							alarmeDevice = mBluetoothAdapter
-									.getRemoteDevice(device.getAddress());
+							alarmeDevice = device;
 							break;
 						} else {
 							alarmeDevice = null;
 						}
 					}
 					if (alarmeDevice != null) {
-						cThread[0] = new ConnectThread(alarmeDevice);
-						cThread[0].start();
+						connect();
 						int i = 0;
 						while (outStream == null && i < 3) {
 							synchronized (this) {
@@ -130,37 +135,38 @@ public class Main extends Activity {
 		}
 	};
 
-	private class ConnectThread extends Thread {
-		private final BluetoothSocket mmSocket;
-		
-		public ConnectThread(BluetoothDevice device) {
-			BluetoothSocket tmp = null;
-			// Get a BluetoothSocket for a connection with the
-			// given BluetoothDevice
-			try {
-				tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66"));
-			} catch (IOException e) {
-
-			}
-			mmSocket = tmp;
+	private void connect() {
+		BluetoothSocket tmp = null;
+		try {
+			Method m = alarmeDevice.getClass().getMethod("createRfcommSocket", new Class[] {int.class});          
+			tmp = (BluetoothSocket) m.invoke(alarmeDevice, 1); 
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		public void run() {
-			mBluetoothAdapter.cancelDiscovery();
+		btSocket = tmp;
+		mBluetoothAdapter.cancelDiscovery();
+		try {
+			btSocket.connect();
+			outStream = btSocket.getOutputStream();
+		} catch (IOException e) {
 			try {
-				mmSocket.connect();
-				outStream = mmSocket.getOutputStream();
-			} catch (IOException e) {
-				try {
-					outStream = null;
-					lstDevices.clear();
-					mmSocket.close();
-				} catch (IOException e2) {
-
-				}
-
-				return;
+				btSocket.close();
+			} catch (IOException e2) {
 			}
+			return;
 		}
 	}
 
