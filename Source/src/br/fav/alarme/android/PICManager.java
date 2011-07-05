@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -17,12 +16,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class BluetoothConnector extends Activity {
+public class PICManager extends Activity {
 
 	// API
 	private BluetoothAdapter mBluetoothAdapter;
 	// API
-	private BluetoothSocket mmSocket;
+	/*private BluetoothSocket mmSocket;*/
 	// API
 	private final List<BluetoothDevice> lstDevices = new ArrayList<BluetoothDevice>();
 	// API
@@ -37,11 +36,10 @@ public class BluetoothConnector extends Activity {
 	private boolean dataSent = false;
 	// Well known SPP UUID (will *probably* map to RFCOMM channel 1 (default) if
 	// not in use);
-	// see comments in onResume().
-	private static final UUID MY_UUID = UUID
-			.fromString("00001101-0000-1000-8000-00805F9B34FB");
+	/*private static final UUID MY_UUID = UUID
+			.fromString("00001101-0000-1000-8000-00805F9B34FB");*/
 	
-	public void sendMessageToPic() {
+	public void enviarMessagemParaOPic() {
 		
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (!mBluetoothAdapter.isEnabled()) {
@@ -96,7 +94,6 @@ public class BluetoothConnector extends Activity {
 						dataSent = true;
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					outStream = null;
 					e.printStackTrace();
 				}
@@ -104,7 +101,7 @@ public class BluetoothConnector extends Activity {
 		}
 		
 		if(!dataSent) {
-			sendMessageToPic();
+			enviarMessagemParaOPic();
 		}
 	}
 	
@@ -133,19 +130,14 @@ public class BluetoothConnector extends Activity {
 			Method m = alarmeDevice.getClass().getMethod("createRfcommSocket", new Class[] {int.class});          
 			tmp = (BluetoothSocket) m.invoke(alarmeDevice, 1); 
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		btSocket = tmp;
