@@ -16,7 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class PICManager extends Activity {
+public class PICManager {
 
 	// API
 	private BluetoothAdapter mBluetoothAdapter;
@@ -31,7 +31,7 @@ public class PICManager extends Activity {
 	// API
 	private BluetoothSocket btSocket = null;
 	// Nome do dispositivo bluetooth utilizado pelo PIC
-	private String PIC = "";
+	private String PIC_DEVICE = "";
 	// Flag que controla se os dados foram enviados para o PIC com sucesso
 	private boolean dataSent = false;
 	// Well known SPP UUID (will *probably* map to RFCOMM channel 1 (default) if
@@ -39,18 +39,24 @@ public class PICManager extends Activity {
 	/*private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");*/
 	
-	public void enviarMessagemParaOPic() {
+	private Activity activity;
+	
+	public PICManager(Activity activity) {
+		this.activity = activity;
+	}
+	
+	public void enviarMessagemParaOPic(Integer codigo) {
 		
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (!mBluetoothAdapter.isEnabled()) {
 			dataSent = false;
 			Intent enableBtIntent = new Intent(
 					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBtIntent, 3);
+			activity.startActivityForResult(enableBtIntent, 3);
 		} else {
 			dataSent = false;
 			IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-			registerReceiver(mReceiver, filter);
+			activity.registerReceiver(mReceiver, filter);
 
 			mBluetoothAdapter.startDiscovery();
 			while (mBluetoothAdapter.isDiscovering()) {
@@ -65,10 +71,10 @@ public class PICManager extends Activity {
 
 			filter = new IntentFilter(
 					BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-			registerReceiver(mReceiver, filter);
+			activity.registerReceiver(mReceiver, filter);
 
 			for (BluetoothDevice device : lstDevices) {
-				if (PIC.equals(device.getName())) {
+				if (PIC_DEVICE.equals(device.getName())) {
 					alarmeDevice = device;
 					break;
 				} else {
@@ -90,7 +96,7 @@ public class PICManager extends Activity {
 				}
 				try {
 					if (outStream != null) {
-						outStream.write(1);
+						outStream.write(codigo);
 						dataSent = true;
 					}
 				} catch (IOException e) {
@@ -101,7 +107,7 @@ public class PICManager extends Activity {
 		}
 		
 		if(!dataSent) {
-			enviarMessagemParaOPic();
+			enviarMessagemParaOPic(codigo);
 		}
 	}
 	
