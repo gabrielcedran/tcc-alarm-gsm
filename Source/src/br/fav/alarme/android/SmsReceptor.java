@@ -11,6 +11,9 @@ public class SmsReceptor extends BroadcastReceiver {
 
 	static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";  
 
+	private static GPSManager gpsManager;
+	private static PICManager picManager;
+	private static SmsReceptor smsReceptor;
 	
 	@Override
     public void onReceive(Context context, Intent intent) {
@@ -25,9 +28,61 @@ public class SmsReceptor extends BroadcastReceiver {
 	                msgs[i]= SmsMessage.createFromPdu((byte[])pdus[i]);
 	                str+= msgs[i].getMessageBody();
 	            }
-	             Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+	            if(str.length() >=2 ) {
+	            	if(validarSenha(str.substring(1))) {
+	            		menu(Integer.parseInt(str.substring(0, 1)));	
+	            	}
+	            }
 	        }
 		}   
-    }         
+    }        
 	
+	private static boolean validarSenha(String senha) {
+		return true;
+	}
+	
+	private static void menu(Integer opcao) {
+		switch (opcao) {
+			case 1: ativarAlarme();
+					break;
+			case 3: travarDestravar();
+					break;
+			case 7: obterPosicaoAtual();
+					break;
+			case 9: desativarAlarme();
+					break;
+		}
+	}
+	
+	private static void ativarAlarme() {
+		getPICManagerInstance().enviarMessagemParaOPic(1);
+		getGPSManagerInstance().rastrear();
+	}
+	
+	private static void travarDestravar() {
+		getPICManagerInstance().enviarMessagemParaOPic(3);
+	}
+	
+	private static void obterPosicaoAtual() {
+		getGPSManagerInstance().rastrearUmaVez();
+	}
+	
+	private static void desativarAlarme() {
+		getPICManagerInstance().enviarMessagemParaOPic(9);
+		getGPSManagerInstance().cancelarRastreamento();
+	}
+	
+	private static GPSManager getGPSManagerInstance() {
+		if(gpsManager == null) {
+			//gpsManager = new GPSManager(smsReceptor);
+		}
+		return gpsManager;
+	}
+	
+	private static PICManager getPICManagerInstance() {
+		if(picManager == null) {
+			//picManager = new PICManager(smsReceptor);
+		}
+		return picManager;
+	}
 }
