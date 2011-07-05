@@ -34,6 +34,8 @@ public class PICManager {
 	private String PIC_DEVICE = "";
 	// Flag que controla se os dados foram enviados para o PIC com sucesso
 	private boolean dataSent = false;
+	// Flag que controla as tentativas de enviar os dados para o pic
+	private int tentativas = 0;
 	// Well known SPP UUID (will *probably* map to RFCOMM channel 1 (default) if
 	// not in use);
 	/*private static final UUID MY_UUID = UUID
@@ -45,15 +47,17 @@ public class PICManager {
 		this.activity = activity;
 	}
 	
-	public void enviarMessagemParaOPic(Integer codigo) {
+	public boolean enviarMessagemParaOPic(Integer codigo) {
 		
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (!mBluetoothAdapter.isEnabled()) {
 			dataSent = false;
+			tentativas = 0;
 			Intent enableBtIntent = new Intent(
 					BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			activity.startActivityForResult(enableBtIntent, 3);
 		} else {
+			tentativas++;
 			dataSent = false;
 			IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 			activity.registerReceiver(mReceiver, filter);
@@ -106,9 +110,13 @@ public class PICManager {
 			}
 		}
 		
-		if(!dataSent) {
+		if(!dataSent && tentativas <= 3) {
 			enviarMessagemParaOPic(codigo);
+		} 
+		if(tentativas > 3) {
+			return false;
 		}
+		return true;
 	}
 	
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
