@@ -64,9 +64,9 @@ public class GPSManager {
         @Override
         public void onLocationChanged(Location location) {
             locationManager.removeUpdates(networkLocationListener);
-            
-            //location.getLatitude();
-            //location.getLongitude();
+
+            CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
+            		String.valueOf(location.getLongitude()), "X");
             
         }
     };
@@ -98,8 +98,8 @@ public class GPSManager {
         @Override
         public void onLocationChanged(Location location) {
         	
-        	//location.getLatitude();
-            //location.getLongitude();
+        	CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
+            	String.valueOf(location.getLongitude()), "X");
             
         }
     };
@@ -132,11 +132,10 @@ public class GPSManager {
         public void onLocationChanged(Location location) {
             locationManager.removeUpdates(networkLocationListener);
             
-            //location.getLatitude();
-            //location.getLongitude();
+            CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
+            		String.valueOf(location.getLongitude()), "X");
             
             locationManager.removeUpdates(gpsLocationListenerUmaVez);
-            
         }
     };
 }
