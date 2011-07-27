@@ -49,6 +49,16 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>ReceberCoordenadas</servlet-name>
+		<servlet-class>br.fav.alarme.android.web.ReceberCoordenadas</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ReceberCoordenadas</servlet-name>
+		<url-pattern>/ReceberCoordenadas</url-pattern>
+	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
