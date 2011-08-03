@@ -1,30 +1,32 @@
 package br.fav.alarme.android;
 
-import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Looper;
 
 public class GPSManager {
 
 	private LocationManager locationManager;
-	private Activity activity;
+	private Service service;
 	
-	public GPSManager(Activity activity) {
-		this.activity = activity;
+	public GPSManager(Service service) {
+		this.service = service;
 	}
 	
 	public void rastrearUmaVez() {
-		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE); 
+		Looper.prepareMainLooper();
+		cancelarRastreamento();
+		locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListenerUmaVez);
 	}
 	
 	public void rastrear() {
-		
-		locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE); 
+		locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, networkLocationListener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListener);
         
@@ -63,7 +65,6 @@ public class GPSManager {
 
         @Override
         public void onLocationChanged(Location location) {
-            locationManager.removeUpdates(networkLocationListener);
 
             CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
             		String.valueOf(location.getLongitude()), "X");
@@ -130,7 +131,6 @@ public class GPSManager {
 
         @Override
         public void onLocationChanged(Location location) {
-            locationManager.removeUpdates(networkLocationListener);
             
             CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
             		String.valueOf(location.getLongitude()), "X");

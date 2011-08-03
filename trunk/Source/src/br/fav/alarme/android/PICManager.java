@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -15,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Looper;
 
 public class PICManager {
 
@@ -41,21 +42,22 @@ public class PICManager {
 	/*private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");*/
 	
-	private Activity activity;
+	private Service activity;
 	
-	public PICManager(Activity activity) {
+	public PICManager(Service activity) {
 		this.activity = activity;
 	}
 	
 	public boolean enviarMessagemParaOPic(Integer codigo) {
-		
+		if(tentativas==0)
+			Looper.prepareMainLooper();
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (!mBluetoothAdapter.isEnabled()) {
 			dataSent = false;
-			tentativas = 0;
-			Intent enableBtIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			activity.startActivityForResult(enableBtIntent, 3);
+			tentativas++;
+			// Intent enableBtIntent = new Intent(
+			//		BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			// activity.startActivityForResult(enableBtIntent, 3);
 		} else {
 			tentativas++;
 			dataSent = false;
