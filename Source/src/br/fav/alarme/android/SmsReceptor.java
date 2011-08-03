@@ -1,6 +1,7 @@
 package br.fav.alarme.android;
 
 import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +28,8 @@ public class SmsReceptor extends BroadcastReceiver {
 	            }
 	            if(str.length() >=2 ) {
 	            	Intent intentAlarme = new Intent("ALARME_ANDROID");
-	            	PendingIntent p = PendingIntent.getService(context, 0, intentAlarme, 0);
+	            	intentAlarme.putExtra("Message", str);
+	            	context.startService(intentAlarme);
 	            }
 	        }
 		}   
