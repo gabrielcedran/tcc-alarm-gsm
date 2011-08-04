@@ -19,16 +19,18 @@ public class GPSManager {
 	}
 	
 	public void rastrearUmaVez() {
-		Looper.prepareMainLooper();
-		cancelarRastreamento();
+		
 		locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListenerUmaVez);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListenerUmaVez,
+        		Looper.getMainLooper());
 	}
 	
 	public void rastrear() {
 		locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, networkLocationListener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, networkLocationListener,
+        		Looper.getMainLooper());
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListener,
+        		Looper.getMainLooper());
         
 	}
 	
