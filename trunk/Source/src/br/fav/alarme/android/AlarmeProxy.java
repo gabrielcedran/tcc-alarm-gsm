@@ -7,13 +7,13 @@ import android.os.IBinder;
 
 public class AlarmeProxy extends Service implements Runnable {
 
-	private final IBinder conexao = new LocalBinder();
 	private String message;
 	private static GPSManager gpsManager;
 	private static PICManager picManager;
 		
 	public void ativarAlarme() {
-		new Thread(this).start();
+		getGPSManagerInstance(this).rastrear();
+		getPICManagerInstance(this).enviarMessagemParaOPic(1);
 	}
 	
 	public void travarDestravar() {
@@ -45,29 +45,40 @@ public class AlarmeProxy extends Service implements Runnable {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		return conexao;
+		return null;
 	}
 
 	@Override
 	public void run() {
-		getPICManagerInstance(this).enviarMessagemParaOPic(1);
-		getGPSManagerInstance(this).rastrear();
+		menu(Integer.parseInt(message.substring(0,1)));
 	}
 	
 	@Override
 	public void onStart(Intent intent, int startId){
-		
+		message = intent.getExtras().getString("Message");
+		new Thread(this).start();
 	}
 
 	@Override
 	public void onCreate() {
-		
+		System.out.println("tESTE2");
 	}
 	
-	public class LocalBinder extends Binder {
-        public AlarmeProxy getService() {
-            return AlarmeProxy.this;
-        }
-    }
+	private void menu(Integer opcao) {
+		switch (opcao) {
+			case 1: ativarAlarme();
+					break;
+			case 3: travarDestravar();
+					break;
+			case 7: obterPosicaoAtual();
+					break;
+			case 9: desativarAlarme();
+					break;
+		}
+	}
+	
+	private boolean validarSenha(String senha) {
+		return true;
+	}
 
 }

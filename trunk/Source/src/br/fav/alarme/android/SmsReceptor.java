@@ -1,7 +1,5 @@
 package br.fav.alarme.android;
 
-import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +9,6 @@ import android.telephony.SmsMessage;
 public class SmsReceptor extends BroadcastReceiver {
 
 	static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";  
-
 	
 	@Override
     public void onReceive(Context context, Intent intent) {
@@ -28,10 +25,11 @@ public class SmsReceptor extends BroadcastReceiver {
 	            }
 	            if(str.length() >=2 ) {
 	            	Intent intentAlarme = new Intent("ALARME_ANDROID");
-	            	intentAlarme.putExtra("Message", str);
-	            	context.startService(intentAlarme);
+            		intentAlarme.putExtra("Message", str);
+            		context.startService(intentAlarme);
 	            }
 	        }
 		}   
-    }        
+    }       
+	
 }
