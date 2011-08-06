@@ -5,15 +5,48 @@
     android:layout_height="fill_parent"
     >
     
+<TextView
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:text="Servidor: "/>    
 <EditText
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:id="@+id/txtDeviceName"/>
+    android:id="@+id/txtServerName"/>
+
+<TextView
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:text="PIC: "/>    
+<EditText
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txtPicName"/>
+
+<TextView
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:text="Senha: "/>    
+<EditText
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txtSenha"/>
+
+
+<TextView
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:text="ID Carro: "/>    
+<EditText
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txtIdCarro"/>
+
     
 <Button
 	android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:id="@+id/btnScan"
-    android:text="Scan" />
+    android:id="@+id/btnSave"
+    android:text="Save" />
     
 </LinearLayout>

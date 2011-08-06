@@ -2,6 +2,7 @@ package br.fav.alarme.android;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,16 +14,11 @@ public class GPSManager {
 
 	private LocationManager locationManager;
 	private Service service;
+	private SharedPreferences settings;
 	
 	public GPSManager(Service service) {
 		this.service = service;
-	}
-	
-	public void rastrearUmaVez() {
-		
-		locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListenerUmaVez,
-        		Looper.getMainLooper());
+		settings = service.getSharedPreferences("AlarmeAndroid", 0);
 	}
 	
 	public void rastrear() {
@@ -31,13 +27,6 @@ public class GPSManager {
         		Looper.getMainLooper());
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, gpsLocationListener,
         		Looper.getMainLooper());
-        
-	}
-	
-	public void cancelarRastreamento() {
-		
-		locationManager.removeUpdates(networkLocationListener);
-        locationManager.removeUpdates(gpsLocationListener);
         
 	}
 	
@@ -69,8 +58,10 @@ public class GPSManager {
         public void onLocationChanged(Location location) {
 
             CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
-            		String.valueOf(location.getLongitude()), "X");
+            		String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""));
             
+        	locationManager.removeUpdates(networkLocationListener);
+        	locationManager.removeUpdates(gpsLocationListener);
         }
     };
 
@@ -102,42 +93,12 @@ public class GPSManager {
         public void onLocationChanged(Location location) {
         	
         	CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
-            	String.valueOf(location.getLongitude()), "X");
+            	String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""));
+
+        	locationManager.removeUpdates(networkLocationListener);
+        	locationManager.removeUpdates(gpsLocationListener);
             
         }
     };
-    
-    private final LocationListener gpsLocationListenerUmaVez = new LocationListener() {
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            switch (status) {
-            case LocationProvider.AVAILABLE:
-                break;
-            case LocationProvider.OUT_OF_SERVICE:
-                break;
-            case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                break;
-            }
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            
-        }
-
-        @Override
-        public void onLocationChanged(Location location) {
-            
-            CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
-            		String.valueOf(location.getLongitude()), "X");
-            
-            locationManager.removeUpdates(gpsLocationListenerUmaVez);
-        }
-    };
+   
 }

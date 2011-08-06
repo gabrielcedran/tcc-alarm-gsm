@@ -8,9 +8,11 @@ import java.net.URL;
 public class CoordinatesSender {
 
 	public static Boolean enviarCoordenadas(String latitude, String longitude,
-			String idCarro) {
+			String idCarro, String serverName) {
 		
-		String urlString = "http://201.76.17.229:8080/alarmeAndroid3/ReceberCoordenadas?";
+		String urlString = "http://";
+		urlString += serverName;
+		urlString += "/alarmeAndroid3/ReceberCoordenadas?";
 		urlString += "latitude="+latitude;
 		urlString += "&longitude="+longitude;
 		urlString += "&idCarro="+idCarro;

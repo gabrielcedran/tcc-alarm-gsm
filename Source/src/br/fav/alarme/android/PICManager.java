@@ -15,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Looper;
 
 public class PICManager {
@@ -31,8 +32,6 @@ public class PICManager {
 	private BluetoothDevice alarmeDevice;
 	// API
 	private BluetoothSocket btSocket = null;
-	// Nome do dispositivo bluetooth utilizado pelo PIC
-	private String PIC_DEVICE = "";
 	// Flag que controla se os dados foram enviados para o PIC com sucesso
 	private boolean dataSent = false;
 	// Flag que controla as tentativas de enviar os dados para o pic
@@ -42,10 +41,13 @@ public class PICManager {
 	/*private static final UUID MY_UUID = UUID
 			.fromString("00001101-0000-1000-8000-00805F9B34FB");*/
 	
-	private Service activity;
+	private Service service;
 	
-	public PICManager(Service activity) {
-		this.activity = activity;
+	private SharedPreferences settings;
+	
+	public PICManager(Service service) {
+		this.service = service;
+		settings = service.getSharedPreferences("AlarmeAndroid", 0);
 	}
 	
 	public boolean enviarMessagemParaOPic(Integer codigo) {
@@ -62,7 +64,7 @@ public class PICManager {
 			tentativas++;
 			dataSent = false;
 			IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-			activity.registerReceiver(mReceiver, filter);
+			service.registerReceiver(mReceiver, filter);
 
 			mBluetoothAdapter.startDiscovery();
 			while (mBluetoothAdapter.isDiscovering()) {
@@ -77,10 +79,10 @@ public class PICManager {
 
 			filter = new IntentFilter(
 					BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-			activity.registerReceiver(mReceiver, filter);
+			service.registerReceiver(mReceiver, filter);
 
 			for (BluetoothDevice device : lstDevices) {
-				if (PIC_DEVICE.equals(device.getName())) {
+				if (settings.getString("picName", "").equals(device.getName())) {
 					alarmeDevice = device;
 					break;
 				} else {

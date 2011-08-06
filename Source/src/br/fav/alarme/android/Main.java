@@ -1,20 +1,13 @@
 package br.fav.alarme.android;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class Main extends Activity implements ServiceConnection {
-
-	private AlarmeProxy proxy;
-	private ServiceConnection conexao;
+public class Main extends Activity {
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -22,70 +15,44 @@ public class Main extends Activity implements ServiceConnection {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		final EditText txtDeviceName = (EditText) findViewById(R.id.txtDeviceName);
+		SharedPreferences settings = getSharedPreferences("AlarmeAndroid", 0);
 
-		final Button btnScan = (Button) findViewById(R.id.btnScan);
+		final EditText txtServerName = (EditText) findViewById(R.id.txtServerName);
+		txtServerName.setText(settings.getString("serverName", ""));
+
+		final EditText txtPicName = (EditText) findViewById(R.id.txtPicName);
+		txtPicName.setText(settings.getString("picName", ""));
+
+		final EditText txtSenha = (EditText) findViewById(R.id.txtSenha);
+		txtSenha.setText(settings.getString("senha", ""));
+
+		final EditText txtIdCarro = (EditText) findViewById(R.id.txtIdCarro);
+		txtIdCarro.setText(settings.getString("idCarro", ""));
 		
-		final Main main = this;
+		final Button btnSave = (Button) findViewById(R.id.btnSave);
 		
-		conexao = this;
-		btnScan.setOnClickListener(new Button.OnClickListener() {
+		btnSave.setOnClickListener(new Button.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 
-				final EditText txtDeviceName = (EditText) findViewById(R.id.txtDeviceName);
-				Intent intentAlarme = new Intent("ALARME_ANDROID");
-				intentAlarme.putExtra("Message", txtDeviceName.getText().toString());
-				startService(intentAlarme);
+				final EditText txtServerName = (EditText) findViewById(R.id.txtServerName);
+
+				final EditText txtPicName = (EditText) findViewById(R.id.txtPicName);
 				
+				final EditText txtSenha = (EditText) findViewById(R.id.txtSenha);
+				
+				final EditText txtIdCarro = (EditText) findViewById(R.id.txtIdCarro);
+
+				SharedPreferences settings = getSharedPreferences("AlarmeAndroid", 0);
+				SharedPreferences.Editor editor = settings.edit();
+			    editor.putString("serverName", txtServerName.getText().toString());
+			    editor.putString("picName", txtPicName.getText().toString());
+			    editor.putString("senha", txtSenha.getText().toString());
+			    editor.putString("idCarro", txtIdCarro.getText().toString());
+			    editor.commit();
 			}
 		});
-	}
-	
-	private void verificaUnbound(Integer opcao) {
-		switch (opcao) {
-			case 3: unbindService(conexao);
-					proxy = null;
-					break;
-			case 7: unbindService(conexao);
-					proxy = null;
-					break;
-			case 9: unbindService(conexao);
-					proxy = null;
-					break;
-		}
-	}
-
-	private void menu(Integer opcao) {
-		switch (opcao) {
-			case 1: proxy.ativarAlarme();
-					break;
-			case 3: proxy.travarDestravar();
-					break;
-			case 7: proxy.obterPosicaoAtual();
-					break;
-			case 9: proxy.desativarAlarme();
-					break;
-		}
-	}
-	
-	private boolean validarSenha(String senha) {
-		return true;
-	}
-	
-	@Override
-	public void onServiceConnected(ComponentName name, IBinder service) {
-		if(proxy == null) {
-			//proxy = ((LocalBinder) service).getService(); 
-			menu(1);
-		}
-	}
-
-	@Override
-	public void onServiceDisconnected(ComponentName name) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
