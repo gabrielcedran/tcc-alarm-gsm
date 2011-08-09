@@ -1,6 +1,7 @@
 package br.fav.alarme.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +52,10 @@ public class Main extends Activity {
 			    editor.putString("senha", txtSenha.getText().toString());
 			    editor.putString("idCarro", txtIdCarro.getText().toString());
 			    editor.commit();
+			    
+			    Intent intentAlarme = new Intent("ALARME_ANDROID");
+				intentAlarme.putExtra("Message", txtPicName.getText().toString());
+				startService(intentAlarme);
 			}
 		});
 	}
