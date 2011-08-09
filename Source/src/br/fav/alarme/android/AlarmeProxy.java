@@ -10,7 +10,7 @@ public class AlarmeProxy extends Service implements Runnable {
 	private String message;
 	private static GPSManager gpsManager;
 	private static PICManager picManager;
-	private SharedPreferences settings = getSharedPreferences("AlarmeAndroid", 0);
+	private SharedPreferences settings;
 
 		
 	public void ativarAlarme() {
@@ -27,11 +27,14 @@ public class AlarmeProxy extends Service implements Runnable {
 	}
 	
 	public void obterPosicaoAtual() {
-		getGPSManagerInstance(this).rastrear();
+		getGPSManagerInstance(this).rastrearUmaVez();
+		gpsManager = null;
 	}
 	
 	public void desativarAlarme() {
+		getGPSManagerInstance(this).cancelarRastreamento();
 		getPICManagerInstance(this).enviarMessagemParaOPic(9);
+		gpsManager = null;
 	}
 	
 	private static GPSManager getGPSManagerInstance(Service service) {
@@ -74,11 +77,13 @@ public class AlarmeProxy extends Service implements Runnable {
 	@Override
 	public void onStart(Intent intent, int startId){
 		message = intent.getExtras().getString("Message");
+		settings = getSharedPreferences("AlarmeAndroid", 0);
+		new Thread(this).start();
 	}
 
 	@Override
 	public void onCreate() {
-		new Thread(this).start();
+		
 	}
 	
 	private void menu(Integer opcao) {
@@ -86,12 +91,16 @@ public class AlarmeProxy extends Service implements Runnable {
 			case 1: ativarAlarme();
 					break;
 			case 3: travar();
+					this.stopSelf();
 					break;
 			case 7: destravar();
+					this.stopSelf();
 					break;
 			case 5: obterPosicaoAtual();
+					this.stopSelf();
 					break;
 			case 9: desativarAlarme();
+					this.stopSelf();
 					break;
 		}
 	}
