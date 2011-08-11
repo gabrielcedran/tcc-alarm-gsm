@@ -11,7 +11,7 @@ public class JDBCConnector {
 	public Connection getConnection() {
 		if(conn == null) {
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alarmeandroiddb?user=root&password=root");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/alarmeandroiddb?user=root&password=root");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -30,5 +30,6 @@ public class JDBCConnector {
 				e.printStackTrace();
 			}  
 		}
+		conn = null;
 	}
 }

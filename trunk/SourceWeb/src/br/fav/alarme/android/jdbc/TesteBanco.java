@@ -12,5 +12,6 @@ public class TesteBanco {
 		System.out.println(r.getLatitude());
 		System.out.println(r.getData());
 
+		rr.criarRegistro(r);
 	}
 }
