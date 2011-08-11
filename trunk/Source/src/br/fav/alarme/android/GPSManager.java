@@ -23,19 +23,22 @@ public class GPSManager {
 	}
 
 	public void rastrearUmaVez() {
-		
+		if(!rastreando) {
 		locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, gpsLocationListenerUmaVez,
         		Looper.getMainLooper());
+		}
 	}
 	
 	public void rastrear() {
-		locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, networkLocationListener,
-        		Looper.getMainLooper());
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, gpsLocationListener,
-        		Looper.getMainLooper());
-        rastreando = true;
+		if(!rastreando) {
+			locationManager = (LocationManager) service.getSystemService(Context.LOCATION_SERVICE); 
+	        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, networkLocationListener,
+	        		Looper.getMainLooper());
+	        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, gpsLocationListener,
+	        		Looper.getMainLooper());
+	        rastreando = true;
+		}
         
 	}
 	
