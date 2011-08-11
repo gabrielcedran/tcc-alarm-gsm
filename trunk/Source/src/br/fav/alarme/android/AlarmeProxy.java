@@ -8,22 +8,27 @@ import android.os.IBinder;
 public class AlarmeProxy extends Service implements Runnable {
 
 	private String message;
+	private String cellNumber;
 	private static GPSManager gpsManager;
 	private static PICManager picManager;
+	private static SmsSender smsSender;
 	private SharedPreferences settings;
 
 		
 	public void ativarAlarme() {
 		getGPSManagerInstance(this).rastrear();
 		getPICManagerInstance(this).enviarMessagemParaOPic(1);
+		getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme ativado com sucesso");
 	}
 	
 	public void travar() {
 		getPICManagerInstance(this).enviarMessagemParaOPic(3);
+		getSmsSenderInstance(this).sendSMS(cellNumber, "Porta travada com sucesso");
 	}
 	
 	public void destravar() {
 		getPICManagerInstance(this).enviarMessagemParaOPic(7);
+		getSmsSenderInstance(this).sendSMS(cellNumber, "Porta destravada com sucesso");
 	}
 	
 	public void obterPosicaoAtual() {
@@ -35,6 +40,7 @@ public class AlarmeProxy extends Service implements Runnable {
 		getGPSManagerInstance(this).cancelarRastreamento();
 		getPICManagerInstance(this).enviarMessagemParaOPic(9);
 		gpsManager = null;
+		getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme desativado com sucesso");
 	}
 	
 	private static GPSManager getGPSManagerInstance(Service service) {
@@ -49,6 +55,13 @@ public class AlarmeProxy extends Service implements Runnable {
 			picManager = new PICManager(service);
 		}
 		return picManager;
+	}
+	
+	private static SmsSender getSmsSenderInstance(Service service) {
+		if(smsSender == null) {
+			smsSender = new SmsSender(service);
+		}
+		return smsSender;
 	}
 	
 	@Override
@@ -77,6 +90,7 @@ public class AlarmeProxy extends Service implements Runnable {
 	@Override
 	public void onStart(Intent intent, int startId){
 		message = intent.getExtras().getString("Message");
+		cellNumber = intent.getExtras().getString("Cellphone");
 		settings = getSharedPreferences("AlarmeAndroid", 0);
 		new Thread(this).start();
 	}
