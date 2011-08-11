@@ -17,18 +17,27 @@ public class AlarmeProxy extends Service implements Runnable {
 		
 	public void ativarAlarme() {
 		getGPSManagerInstance(this).rastrear();
-		getPICManagerInstance(this).enviarMessagemParaOPic(1);
-		getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme ativado com sucesso");
+		if(getPICManagerInstance(this).enviarMessagemParaOPic(1)) {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme ativado com sucesso");
+		} else {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Não foi possível ativar o alarme");	
+		}
 	}
 	
 	public void travar() {
-		getPICManagerInstance(this).enviarMessagemParaOPic(3);
-		getSmsSenderInstance(this).sendSMS(cellNumber, "Porta travada com sucesso");
+		if(getPICManagerInstance(this).enviarMessagemParaOPic(3)) {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Porta travada com sucesso");			
+		} else {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Não foi possível travar a porta");				
+		}
 	}
 	
 	public void destravar() {
-		getPICManagerInstance(this).enviarMessagemParaOPic(7);
-		getSmsSenderInstance(this).sendSMS(cellNumber, "Porta destravada com sucesso");
+		if(getPICManagerInstance(this).enviarMessagemParaOPic(7)) {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Porta destravada com sucesso");
+		} else {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Não foi possível destravar a porta");	
+		}
 	}
 	
 	public void obterPosicaoAtual() {
@@ -38,9 +47,12 @@ public class AlarmeProxy extends Service implements Runnable {
 	
 	public void desativarAlarme() {
 		getGPSManagerInstance(this).cancelarRastreamento();
-		getPICManagerInstance(this).enviarMessagemParaOPic(9);
+		if(getPICManagerInstance(this).enviarMessagemParaOPic(9)) {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme desativado com sucesso");		
+		} else {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Não foi possível desativar o alarme");		
+		}
 		gpsManager = null;
-		getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme desativado com sucesso");
 	}
 	
 	private static GPSManager getGPSManagerInstance(Service service) {
