@@ -52,7 +52,7 @@ public class PICManager {
 	
 	public boolean enviarMessagemParaOPic(Integer codigo) {
 		if(tentativas==0)
-			Looper.prepareMainLooper();
+			Looper.prepare();
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (!mBluetoothAdapter.isEnabled()) {
 			dataSent = false;
