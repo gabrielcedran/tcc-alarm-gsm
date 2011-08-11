@@ -14,19 +14,16 @@ public class SmsReceptor extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 		if(intent.getAction().equals(ACTION)) {
 			Bundle bundle= intent.getExtras();
-	        SmsMessage[] msgs= null;
-	        String str="";
 	        if(bundle != null ){
 	            Object [] pdus=(Object[]) bundle.get("pdus");
-	            msgs=new SmsMessage[pdus.length];
-	            for(int i=0; i< msgs.length;i++){
-	                msgs[i]= SmsMessage.createFromPdu((byte[])pdus[i]);
-	                str+= msgs[i].getMessageBody();
-	            }
-	            if(str.length() >=2 ) {
-	            	Intent intentAlarme = new Intent("ALARME_ANDROID");
-            		intentAlarme.putExtra("Message", str);
-            		context.startService(intentAlarme);
+	            SmsMessage message = SmsMessage.createFromPdu((byte[]) pdus[0]);
+	            if (!message.isEmail()) {
+		            if(message.getMessageBody().length() >=2 ) {
+		            	Intent intentAlarme = new Intent("ALARME_ANDROID");
+	            		intentAlarme.putExtra("Message", message.getMessageBody());
+	            		intentAlarme.putExtra("Cellphone", message.getOriginatingAddress());	     
+	            		context.startService(intentAlarme);
+		            }
 	            }
 	        }
 		}   
