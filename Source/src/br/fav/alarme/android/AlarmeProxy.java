@@ -89,6 +89,7 @@ public class AlarmeProxy extends Service implements Runnable {
 	private void menu(Integer opcao) {
 		switch (opcao) {
 			case 1: ativarAlarme();
+					this.stopSelf();
 					break;
 			case 3: travar();
 					this.stopSelf();

@@ -12,7 +12,7 @@ public class CoordinatesSender {
 		
 		String urlString = "http://";
 		urlString += serverName;
-		urlString += "/alarmeAndroid3/ReceberCoordenadas?";
+		urlString += "/AlarmeAndroid/ReceberCoordenadas?";
 		urlString += "latitude="+latitude;
 		urlString += "&longitude="+longitude;
 		urlString += "&idCarro="+idCarro;
