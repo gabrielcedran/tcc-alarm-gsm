@@ -13,4 +13,8 @@ public class RastreamentoService {
 		r.criarRegistro(rastreamento);
 	}
 	
+
+	public Rastreamento obterUltimoRegistro(int idCliente) {
+		return new RastreamentoJDBC().obterUltimoRegistro(idCliente);
+	}
 }

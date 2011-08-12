@@ -6,7 +6,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:out value="x"></c:out>
-
+  <jsp:forward page="/rastrear.jsf" />
 </body>
 </html>
