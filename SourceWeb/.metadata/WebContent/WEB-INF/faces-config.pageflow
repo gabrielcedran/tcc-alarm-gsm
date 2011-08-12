@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13111851101640" configfile="/AlarmeAndroidWeb/WebContent/WEB-INF/faces-config.xml"/>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13111851101640" configfile="/AlarmeAndroidWeb/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="rastrear" id="pf13131217140073" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" outlinks="pf13131217140074 pf13131217140085" inlinks="pf13131217496218 pf13131217496219" path="rastrear.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="resultadoRastrear" id="pf13131217140086" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf13131217496218" inlinks="pf13131217140074" path="resultadoRastrear.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="erroRastrear" id="pf13131217140087" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf13131217496219" inlinks="pf13131217140085" path="erroRastrear.jsp"/>
+  <links id="pf13131217140074" target="pf13131217140086" source="pf13131217140073" outcome="sucesso"/>
+  <links id="pf13131217140085" target="pf13131217140087" source="pf13131217140073" outcome="falha"/>
+  <links id="pf13131217496218" target="pf13131217140073" source="pf13131217140086" outcome="voltar"/>
+  <links id="pf13131217496219" target="pf13131217140073" source="pf13131217140087" outcome="voltar"/>
+</pageflow:Pageflow>

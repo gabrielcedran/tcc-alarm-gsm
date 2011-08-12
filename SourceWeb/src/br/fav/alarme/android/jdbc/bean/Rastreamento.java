@@ -1,9 +1,11 @@
 package br.fav.alarme.android.jdbc.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Rastreamento {
+public class Rastreamento implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int idCarro;
 	private String latitude;
