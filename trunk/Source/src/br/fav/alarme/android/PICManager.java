@@ -117,6 +117,7 @@ public class PICManager {
 		if(!dataSent && tentativas <= 3) {
 			enviarMessagemParaOPic(codigo);
 		} 
+		tentativas = 0;
 		if(tentativas > 3) {
 			return false;
 		}
