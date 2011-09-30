@@ -36,6 +36,7 @@ public class PICManager {
 	private boolean dataSent = false;
 	// Flag que controla as tentativas de enviar os dados para o pic
 	private int tentativas = 0;
+	private boolean looperAtivado = false;
 	// Well known SPP UUID (will *probably* map to RFCOMM channel 1 (default) if
 	// not in use);
 	/*private static final UUID MY_UUID = UUID
@@ -51,8 +52,10 @@ public class PICManager {
 	}
 	
 	public boolean enviarMessagemParaOPic(Integer codigo) {
-		if(tentativas==0)
+		if(!looperAtivado) {
 			Looper.prepare();
+			looperAtivado = true;
+		}
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (!mBluetoothAdapter.isEnabled()) {
 			dataSent = false;
@@ -115,14 +118,11 @@ public class PICManager {
 		}
 		
 		if(!dataSent && tentativas <= 3) {
-			enviarMessagemParaOPic(codigo);
+			return enviarMessagemParaOPic(codigo);
 		} 
 		if(tentativas > 3) {
-			tentativas = 0;
 			return false;
 		}
-
-		tentativas = 0;
 		return true;
 	}
 	
@@ -173,5 +173,9 @@ public class PICManager {
 			}
 			return;
 		}
+	}
+	
+	public void setTentativas(int tentativas) {
+		this.tentativas = tentativas;
 	}
 }

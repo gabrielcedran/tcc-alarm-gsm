@@ -17,6 +17,7 @@ public class AlarmeProxy extends Service implements Runnable {
 		
 	public void ativarAlarme() {
 		getGPSManagerInstance(this).rastrear();
+		getPICManagerInstance(this).setTentativas(0);
 		if(getPICManagerInstance(this).enviarMessagemParaOPic(49)) {
 			getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme ativado com sucesso");
 		} else {
@@ -25,6 +26,7 @@ public class AlarmeProxy extends Service implements Runnable {
 	}
 	
 	public void travar() {
+		getPICManagerInstance(this).setTentativas(0);
 		if(getPICManagerInstance(this).enviarMessagemParaOPic(51)) {
 			getSmsSenderInstance(this).sendSMS(cellNumber, "Porta travada com sucesso");			
 		} else {
@@ -33,6 +35,7 @@ public class AlarmeProxy extends Service implements Runnable {
 	}
 	
 	public void destravar() {
+		getPICManagerInstance(this).setTentativas(0);
 		if(getPICManagerInstance(this).enviarMessagemParaOPic(55)) {
 			getSmsSenderInstance(this).sendSMS(cellNumber, "Porta destravada com sucesso");
 		} else {
@@ -47,6 +50,7 @@ public class AlarmeProxy extends Service implements Runnable {
 	
 	public void desativarAlarme() {
 		getGPSManagerInstance(this).cancelarRastreamento();
+		getPICManagerInstance(this).setTentativas(0);
 		if(getPICManagerInstance(this).enviarMessagemParaOPic(57)) {
 			getSmsSenderInstance(this).sendSMS(cellNumber, "Alarme desativado com sucesso");		
 		} else {
