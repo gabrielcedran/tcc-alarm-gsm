@@ -43,6 +43,24 @@ public class AlarmeProxy extends Service implements Runnable {
 		}
 	}
 	
+	public void localizador() {
+		getPICManagerInstance(this).setTentativas(0);
+		if(getPICManagerInstance(this).enviarMessagemParaOPic(50)) {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Localizador ativado com sucesso");			
+		} else {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Não foi possível ativar o localizador");				
+		}
+	}
+	
+	public void cancelarLocalizador() {
+		getPICManagerInstance(this).setTentativas(0);
+		if(getPICManagerInstance(this).enviarMessagemParaOPic(54)) {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Localizador desativado com sucesso");			
+		} else {
+			getSmsSenderInstance(this).sendSMS(cellNumber, "Não foi possível desativar o localizador");				
+		}
+	}
+	
 	public void obterPosicaoAtual() {
 		getGPSManagerInstance(this).rastrearUmaVez();
 		gpsManager = null;
@@ -121,13 +139,19 @@ public class AlarmeProxy extends Service implements Runnable {
 			case 1: ativarAlarme();
 					this.stopSelf();
 					break;
+			case 2: localizador();
+					this.stopSelf();
+					break;
 			case 3: travar();
 					this.stopSelf();
 					break;
-			case 7: destravar();
+			case 5: obterPosicaoAtual();
 					this.stopSelf();
 					break;
-			case 5: obterPosicaoAtual();
+			case 6: cancelarLocalizador();
+					this.stopSelf();
+					break;
+			case 7: destravar();
 					this.stopSelf();
 					break;
 			case 9: desativarAlarme();
