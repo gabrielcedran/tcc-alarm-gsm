@@ -8,7 +8,7 @@ public class TesteBanco {
 
 		
 		RastreamentoJDBC rr = new RastreamentoJDBC();
-		Rastreamento r = rr.obterUltimoRegistro(1);
+		Rastreamento r = rr.obterUltimoRegistro(1, "2");
 		System.out.println(r.getLatitude());
 		System.out.println(r.getData());
 

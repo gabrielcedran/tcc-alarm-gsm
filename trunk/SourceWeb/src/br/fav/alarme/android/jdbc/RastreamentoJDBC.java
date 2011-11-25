@@ -28,14 +28,16 @@ public class RastreamentoJDBC {
 
 	}
 
-	public Rastreamento obterUltimoRegistro(int idCliente) {
+	public Rastreamento obterUltimoRegistro(int idCliente, String senha) {
 		try {
 			JDBCConnector conn = new JDBCConnector();
 			conn.getConnection();
-			String sql = " SELECT * FROM rastreamento WHERE id_carro = ? ORDER BY data DESC";
+			String sql = " SELECT r.* FROM rastreamento r inner join carro c on  " +
+					" r.id_carro = c.id  WHERE c.id = ? and c.senha = ? ORDER BY data DESC";
 			PreparedStatement pstmt;
 			pstmt = conn.getConnection().prepareStatement(sql);
 			pstmt.setInt(1, idCliente);
+			pstmt.setString(2, senha);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				Rastreamento r = new Rastreamento();
