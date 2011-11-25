@@ -10,6 +10,7 @@ public class Rastreamento implements Serializable {
 	private int idCarro;
 	private String latitude;
 	private String longitude;
+	private String senha;
 	private Date data;
 
 	public int getId() {
@@ -50,6 +51,14 @@ public class Rastreamento implements Serializable {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }

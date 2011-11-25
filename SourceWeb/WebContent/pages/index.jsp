@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  
 <html>
 <head>
-<title>Insert title here</title>
+<title>Alarme Android</title>
 </head>
 <body>
   <jsp:forward page="/rastrear.jsf" />

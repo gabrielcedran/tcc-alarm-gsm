@@ -8,9 +8,18 @@ import br.fav.alarme.android.service.RastreamentoService;
 public class RastrearBean {
 
 	private String idCarro;
+	private String senha;
 	private String latitude;
 	private String longitude;
 	private String ultimaAtualizacao;
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
 	public String getIdCarro() {
 		return idCarro;
@@ -46,7 +55,7 @@ public class RastrearBean {
 
 	public String consultarUltimaLocalizacao() {
 		RastreamentoService rs = new RastreamentoService();
-		Rastreamento r = rs.obterUltimoRegistro(Integer.parseInt(idCarro));
+		Rastreamento r = rs.obterUltimoRegistro(Integer.parseInt(idCarro), senha);
 		if(r == null) {
 			return "falha";
 		}
