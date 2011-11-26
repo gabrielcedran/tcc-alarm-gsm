@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
+import br.fav.alarme.android.jdbc.bean.Carro;
 import br.fav.alarme.android.jdbc.bean.Rastreamento;
 
 public class RastreamentoJDBC {
@@ -46,9 +47,33 @@ public class RastreamentoJDBC {
 				r.setLatitude(rs.getString(3));
 				r.setLongitude(rs.getString(4));
 				r.setData(new Date(rs.getTimestamp(5).getTime()));
+				conn.closeConnection();
 				return r;
 			}
-			conn.closeConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Carro obterCarro(int idCliente, String senha) {
+		try {
+			JDBCConnector conn = new JDBCConnector();
+			conn.getConnection();
+			String sql = " SELECT * FROM carro c  WHERE c.id = ? and c.senha = ? ";
+			PreparedStatement pstmt;
+			pstmt = conn.getConnection().prepareStatement(sql);
+			pstmt.setInt(1, idCliente);
+			pstmt.setString(2, senha);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				Carro r = new Carro();
+				r.setId(rs.getInt(1));
+				r.setNome(rs.getString(2));
+				r.setSenha(rs.getString(3));
+				conn.closeConnection();
+				return r;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
