@@ -8,7 +8,7 @@ import java.net.URL;
 public class CoordinatesSender {
 
 	public static Boolean enviarCoordenadas(String latitude, String longitude,
-			String idCarro, String serverName) {
+			String idCarro, String serverName, String senha) {
 		
 		String urlString = "http://";
 		urlString += serverName;
@@ -16,6 +16,7 @@ public class CoordinatesSender {
 		urlString += "latitude="+latitude;
 		urlString += "&longitude="+longitude;
 		urlString += "&idCarro="+idCarro;
+		urlString += "&senha="+senha;
 		
 		try {
 			URL url = new URL(urlString);

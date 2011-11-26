@@ -17,7 +17,26 @@
 <TextView
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-	android:text="PIC: "/>    
+	android:text="ID Carro Servidor: "/>    
+<EditText
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:id="@+id/txtIdCarro"/>
+
+<TextView
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:text="Senha Carro Servidor: "/>    
+<EditText
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:password="true"
+    android:id="@+id/txtSenhaCarro"/>
+
+<TextView
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:text="Nome PIC: "/>    
 <EditText
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
@@ -26,21 +45,13 @@
 <TextView
     android:layout_width="wrap_content" 
     android:layout_height="wrap_content" 
-	android:text="Senha: "/>    
+	android:text="Senha Alarme (SMS): "/>    
 <EditText
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
+    android:password="true"
     android:id="@+id/txtSenha"/>
 
-
-<TextView
-    android:layout_width="wrap_content" 
-    android:layout_height="wrap_content" 
-	android:text="ID Carro: "/>    
-<EditText
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:id="@+id/txtIdCarro"/>
 
     
 <Button
@@ -48,5 +59,10 @@
     android:layout_height="wrap_content" 
     android:id="@+id/btnSave"
     android:text="Save" />
+    
+    <TextView
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" 
+	android:text="1- Ativar Alarme | 2- Ativar Localizador | 3- Travar Portas | 5- Obter Posição Atual | 6- Cancelar Localizador | 7-Destravar Portas | 9- Desativar Alarme "/>
     
 </LinearLayout>
