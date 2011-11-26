@@ -14,10 +14,11 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int btnSave=0x7f050004;
-        public static final int txtIdCarro=0x7f050003;
-        public static final int txtPicName=0x7f050001;
-        public static final int txtSenha=0x7f050002;
+        public static final int btnSave=0x7f050005;
+        public static final int txtIdCarro=0x7f050001;
+        public static final int txtPicName=0x7f050003;
+        public static final int txtSenha=0x7f050004;
+        public static final int txtSenhaCarro=0x7f050002;
         public static final int txtServerName=0x7f050000;
     }
     public static final class layout {
