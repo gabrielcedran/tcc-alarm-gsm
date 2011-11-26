@@ -79,7 +79,8 @@ public class GPSManager {
         public void onLocationChanged(Location location) {
 
             CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
-            		String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""));
+            		String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""),
+            		settings.getString("senhaCarro", ""));
             
         }
     };
@@ -112,7 +113,8 @@ public class GPSManager {
         public void onLocationChanged(Location location) {
         	
         	CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
-            	String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""));
+            	String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""),
+            	settings.getString("senhaCarro", ""));
         	
         }
     };
@@ -145,7 +147,8 @@ public class GPSManager {
         public void onLocationChanged(Location location) {
 
         	CoordinatesSender.enviarCoordenadas(String.valueOf(location.getLatitude()), 
-            	String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""));
+            	String.valueOf(location.getLongitude()), settings.getString("idCarro", ""), settings.getString("serverName", ""),
+            	settings.getString("senhaCarro", ""));
             
             locationManager.removeUpdates(gpsLocationListenerUmaVez);
         }

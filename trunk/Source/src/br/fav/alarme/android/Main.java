@@ -30,6 +30,9 @@ public class Main extends Activity {
 		final EditText txtIdCarro = (EditText) findViewById(R.id.txtIdCarro);
 		txtIdCarro.setText(settings.getString("idCarro", ""));
 		
+		final EditText txtSenhaCarro = (EditText) findViewById(R.id.txtSenhaCarro);
+		txtSenhaCarro.setText(settings.getString("senhaCarro", ""));
+		
 		final Button btnSave = (Button) findViewById(R.id.btnSave);
 		
 		btnSave.setOnClickListener(new Button.OnClickListener() {
@@ -51,6 +54,8 @@ public class Main extends Activity {
 			    editor.putString("picName", txtPicName.getText().toString());
 			    editor.putString("senha", txtSenha.getText().toString());
 			    editor.putString("idCarro", txtIdCarro.getText().toString());
+			    editor.putString("senhaCarro", txtSenhaCarro.getText().toString());
+			    
 			    editor.commit();
 			    
 			    Intent intentAlarme = new Intent("ALARME_ANDROID");
