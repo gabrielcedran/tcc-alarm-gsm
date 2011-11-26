@@ -16,14 +16,16 @@ public class ReceberCoordenadas extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)  
     			throws IOException, ServletException {  
-		
-		Rastreamento r = new Rastreamento();
-		r.setLatitude(request.getParameter("latitude"));
-		r.setLongitude(request.getParameter("longitude"));
-		r.setIdCarro(Integer.parseInt(request.getParameter("idCarro")));
-		
 		RastreamentoService rs = new RastreamentoService();
-		rs.criarRegistro(r);
+		if(rs.obterCarro(Integer.parseInt(request.getParameter("idCarro")), request.getParameter("senha")) != null) {
+		
+			Rastreamento r = new Rastreamento();
+			r.setLatitude(request.getParameter("latitude"));
+			r.setLongitude(request.getParameter("longitude"));
+			r.setIdCarro(Integer.parseInt(request.getParameter("idCarro")));
+			
+			rs.criarRegistro(r);
+		}
 	}
 
 }
