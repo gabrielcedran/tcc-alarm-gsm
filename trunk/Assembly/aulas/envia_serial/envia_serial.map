@@ -1,0 +1,50 @@
+MPLINK 4.35, Linker
+Linker Map File - Created Mon May 09 22:16:46 2011
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000bc
+.config_2007_ENVIA_SERIAL.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000061      
+                            0x002007    0x002007      
+            96 out of 2183 program addresses used, program memory utilization is 4%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+               DECODIFICA   0x000035    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                  DISPLAY   0x000045    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                   INICIO   0x000051    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                PRINCIPAL   0x00002a    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                   RECEBE   0x000031    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                    TEMPO   0x000048    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                    TESTE   0x000005    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                TRANSMITE   0x000041    program     static C:\Exercicios\envia_serial\envia_serial.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    TESTE   0x000005    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                PRINCIPAL   0x00002a    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                   RECEBE   0x000031    program     static C:\Exercicios\envia_serial\envia_serial.asm
+               DECODIFICA   0x000035    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                TRANSMITE   0x000041    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                  DISPLAY   0x000045    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                    TEMPO   0x000048    program     static C:\Exercicios\envia_serial\envia_serial.asm
+                   INICIO   0x000051    program     static C:\Exercicios\envia_serial\envia_serial.asm
+
+
