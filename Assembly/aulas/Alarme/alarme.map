@@ -1,0 +1,48 @@
+MPLINK 4.34, Linker
+Linker Map File - Created Mon Mar 28 22:13:31 2011
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000078
+    .config_2007_ALARME.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x00003f      
+                            0x002007    0x002007      
+            62 out of 2182 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                  DISPARO   0x000015    program     static F:\FAV\Alarme\alarme.asm 
+                   INICIO   0x000035    program     static F:\FAV\Alarme\alarme.asm 
+         MONITORAR_PORTAS   0x00000f    program     static F:\FAV\Alarme\alarme.asm 
+              TEMPO_200MS   0x00001f    program     static F:\FAV\Alarme\alarme.asm 
+                 TEMPO_2S   0x000028    program     static F:\FAV\Alarme\alarme.asm 
+            TEMPO_ENTRADA   0x000012    program     static F:\FAV\Alarme\alarme.asm 
+              TEMPO_SAIDA   0x000005    program     static F:\FAV\Alarme\alarme.asm 
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+              TEMPO_SAIDA   0x000005    program     static F:\FAV\Alarme\alarme.asm 
+         MONITORAR_PORTAS   0x00000f    program     static F:\FAV\Alarme\alarme.asm 
+            TEMPO_ENTRADA   0x000012    program     static F:\FAV\Alarme\alarme.asm 
+                  DISPARO   0x000015    program     static F:\FAV\Alarme\alarme.asm 
+              TEMPO_200MS   0x00001f    program     static F:\FAV\Alarme\alarme.asm 
+                 TEMPO_2S   0x000028    program     static F:\FAV\Alarme\alarme.asm 
+                   INICIO   0x000035    program     static F:\FAV\Alarme\alarme.asm 
+
+

@@ -1,0 +1,48 @@
+MPLINK 4.34, Linker
+Linker Map File - Created Mon Apr 04 21:16:27 2011
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000094
+  .config_2007_SEMAFORO.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x00004d      
+                            0x002007    0x002007      
+            76 out of 2182 program addresses used, program memory utilization is 3%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000043    program     static F:\semaforo\semaforo.asm 
+            PISTA1_ABERTA   0x000005    program     static F:\semaforo\semaforo.asm 
+           PISTA1_ATENCAO   0x000011    program     static F:\semaforo\semaforo.asm 
+            PISTA2_ABERTA   0x000019    program     static F:\semaforo\semaforo.asm 
+           PISTA2_ATENCAO   0x000025    program     static F:\semaforo\semaforo.asm 
+                    TEMPO   0x00002d    program     static F:\semaforo\semaforo.asm 
+                 TEMPO_2S   0x000036    program     static F:\semaforo\semaforo.asm 
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+            PISTA1_ABERTA   0x000005    program     static F:\semaforo\semaforo.asm 
+           PISTA1_ATENCAO   0x000011    program     static F:\semaforo\semaforo.asm 
+            PISTA2_ABERTA   0x000019    program     static F:\semaforo\semaforo.asm 
+           PISTA2_ATENCAO   0x000025    program     static F:\semaforo\semaforo.asm 
+                    TEMPO   0x00002d    program     static F:\semaforo\semaforo.asm 
+                 TEMPO_2S   0x000036    program     static F:\semaforo\semaforo.asm 
+                   INICIO   0x000043    program     static F:\semaforo\semaforo.asm 
+
+
