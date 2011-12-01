@@ -1,4 +1,4 @@
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  1
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ Warning[207]: Found label after column 1. (V3)
                       00043 ; ******************************************************************************
                       00044 ;                                 ROTINAS GERAIS.
                       00045 ; ******************************************************************************
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  2
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Message[305]: Using default destination of 1 (file).
 0027   1706           00095         BSF  S_FAROIS
 0028   1686           00096         BSF  S_SIRENE
 0029   1606           00097         BSF      S_PORTA
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  3
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0053   1286           00148         BCF  S_SIRENE
 0054   1606           00149         BSF      S_PORTA
 0055   280C           00150         GOTO PRINCIPAL
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  4
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 007A   283F           00198         GOTO    ATIVA_LOCALIZADOR       ;'5'
 007B   284F           00199         GOTO    DESATIVA_LOCALIZADOR    ;'6'
 007C   2856           00200         GOTO    DESTRAVA_PORTAS                 ;'7'
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  5
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -280,7 +280,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0097   0186           00238     CLRF    PORTB                               
 0098   2805           00239     GOTO    INICIALIZA                          ;VAI PARA A ROTINA PRINCIPAL    
                       00240     END
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  6
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  6
 
 
 SYMBOL TABLE
@@ -339,7 +339,7 @@ INDF                              00000000
 INICIALIZA                        00000005
 INICIO                            00000088
 INTCON                            0000000B
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  7
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  7
 
 
 SYMBOL TABLE
@@ -398,7 +398,7 @@ S_PORTA                           PORTB,4
 S_SIRENE                          PORTB,5
 T0CS                              00000005
 T0IE                              00000005
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  8
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  8
 
 
 SYMBOL TABLE
@@ -457,7 +457,7 @@ VRR                               00000005
 W                                 00000000
 WR                                00000001
 WREN                              00000002
-MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:04:49         PAGE  9
+MPASM  5.30                      SERIAL_1.ASM   12-1-2011  20:08:58         PAGE  9
 
 
 SYMBOL TABLE
