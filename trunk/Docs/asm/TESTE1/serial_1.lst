@@ -1,0 +1,484 @@
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; ******************************************************************************
+                      00002 ;                         CONFIGURAÇÃO DO MICROCONTROLADOR.
+                      00003 ; ******************************************************************************
+                      00004     LIST P=16F628A                      ;INFORMA O PIC UTILIZADO. 
+                      00005     INCLUDE   <P16F628A.INC>            ;INCLUSÃO DA BIBLIOTECA.
+                      00001         LIST
+                      00002 ; P16F628A.INC  Standard Header File, Version 1.10    Microchip Technology, Inc.
+                      00265         LIST
+                      00266 
+2007   3F0A           00006     __CONFIG _CP_OFF & _WDT_OFF & _PWRTE_OFF & _BODEN_OFF & _MCLRE_OFF   &   _HS_OSC   &   _LVP_OFF
+                      00007     ERRORLEVEL -302                         ;RETIRA MSG OPERAÇÃO NO BANCO 1.
+                      00008 
+                      00009 ; ******************************************************************************
+                      00010 ;                          DECLARAÇÃO DE VARIÁVEIS E CONSTANTES.
+                      00011 ; ******************************************************************************
+                      00012     
+                      00013     CBLOCK 0X20             
+  00000020            00014         T1                          ;VARIÁVEL AUXILIAR PARA TEMPORIZAÇÃO
+  00000021            00015         T2                          ;"
+  00000022            00016                 T3                                      ;"
+  00000023            00017                 AUX                                     ;DADO RECEBIDO PELA SERIAL
+  00000024            00018                 DADO_RX
+  00000025            00019                 CTRL_BLOQUEIO           
+                      00020     ENDC
+                      00021                         
+                      00022         #DEFINE E_1                     PORTA,0         ;
+                      00023         #DEFINE E_2                     PORTA,1         ;
+                      00024         #DEFINE MONITOR         PORTB,0         ;
+                      00025         #DEFINE S_IGNICAO       PORTB,3         ;
+                      00026         #DEFINE S_PORTA         PORTB,4         ;
+                      00027         #DEFINE S_SIRENE        PORTB,5         ;
+                      00028         #DEFINE S_FAROIS        PORTB,6         ;
+                      00029 
+                      00030 ; ******************************************************************************
+                      00031 ;                          VETORES DE RESET E INTERRUPÇÃO.
+                      00032 ; ******************************************************************************
+                      00033 
+0000                  00034     ORG 0X00                                ;A EXECUÇÃO INICIA NESSE ENDEREÇO.
+0000   286D           00035     GOTO   INICIO                       ;VAI PARA A SUB-ROTINA INÍCIO. 
+                      00036         
+0004                  00037     ORG 0X04                                ;VEM NESSE ENDEREÇO COM A INTERRUPÇÃO.
+0004   0009           00038         RETFIE
+                      00039    
+                      00040 ; ******************************************************************************
+                      00041 ;                                 ROTINAS GERAIS.
+                      00042 ; ******************************************************************************
+0005                  00043 AUTO_TESTE                                                      ;PISCA O LEDS 2 VEZES   
+0005   1406           00044         BSF             MONITOR                                 ;LIGA
+0006   2064           00045         CALL    TEMPO                                   ;AGUARDA 200MS
+0007   1006           00046         BCF             MONITOR                                 ;DESLIGA
+0008   2064           00047         CALL    TEMPO
+0009   0BA3           00048         DECFSZ  AUX,F                                   ;PISCA 5 VEZES
+000A   2805           00049         GOTO    AUTO_TESTE
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000B   280C           00050         GOTO    PRINCIPAL
+                      00051 
+000C                  00052 PRINCIPAL
+000C   1E8C           00053         BTFSS   PIR1,RCIF               ;
+000D   281D           00054         GOTO    DECODIFICA              ;
+000E   1C05           00055         BTFSS   E_1                             ;BOTÃO                                          
+000F   2813           00056         GOTO    DISPARO
+0010   1C85           00057         BTFSS   E_2                             ;BOTÃO                                  
+0011   2813           00058         GOTO    DISPARO 
+0012   280C           00059         GOTO    PRINCIPAL
+                      00060 
+0013                  00061 DISPARO
+0013   3045           00062         MOVLW   'E'
+0014   0099           00063         MOVWF   TXREG
+0015   1E0C           00064         BTFSS   PIR1,TXIF
+0016   2815           00065         GOTO    $-1
+0017   2064           00066         CALL    TEMPO
+0018   280C           00067         GOTO    PRINCIPAL
+                      00068 
+0019                  00069 RECEBE                                          ;TRATAMENTO DA INTERRUPÇÃO
+                      00070         ;SALVA W
+0019   3030           00071         MOVLW   .48                             ;ASCII PARA DECIMAL
+001A   021A           00072         SUBWF   RCREG,W
+001B   00A4           00073         MOVWF   DADO_RX                 ;DECIMAL
+                      00074         ;RESTAURA W
+001C   0009           00075         RETFIE
+                      00076         
+001D                  00077 DECODIFICA
+                      00078   ; 1-Ativar o alarme; 3-travar portas; 7-destravar portas; 5-obter posição atual; 9-desativar alarme
+001D   2019           00079         CALL    RECEBE
+001E   0824           00080         MOVF    DADO_RX,W
+001F   0782           00081         ADDWF   PCL,F
+0020   280C           00082         GOTO    PRINCIPAL               ;'0'
+0021   2846           00083         GOTO    BLOQUEIO        ;'1'
+0022   280C           00084         GOTO    PRINCIPAL               ;'2'
+0023   282F           00085         GOTO    TRAVA_PORTAS    ;'3'
+0024   280C           00086         GOTO    PRINCIPAL               ;'4'
+0025   280C           00087         GOTO    PRINCIPAL       ;'5'
+0026   280C           00088         GOTO    PRINCIPAL               ;'6'
+0027   282A           00089         GOTO    DESTRAVA_PORTAS ;'7'
+0028   280C           00090         GOTO    PRINCIPAL               ;'8'
+0029   285F           00091         GOTO    DESBLOQUEIO     ;'9'
+                      00092 
+002A                  00093 DESTRAVA_PORTAS
+002A   1606           00094         BSF             S_PORTA                         ;ACIONA O BOTÃO PARA DESTRAVAR AS PORTAS
+002B   2064           00095         CALL    TEMPO
+002C   1206           00096         BCF             S_PORTA
+002D   01A4           00097         CLRF    DADO_RX                         ;DADO_RX=0
+002E   280C           00098         GOTO    PRINCIPAL
+                      00099         
+002F                  00100 TRAVA_PORTAS
+002F   1206           00101         BCF             S_PORTA                         ;ACIONA O BOTÃO PARA DESTRAVAR AS PORTAS
+0030   2064           00102         CALL    TEMPO
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0031   1606           00103         BSF             S_PORTA
+0032   01A4           00104         CLRF    DADO_RX                         ;DADO_RX=0
+0033   280C           00105         GOTO    PRINCIPAL
+                      00106 
+0034                  00107 LOCALIZADOR
+0034   3005           00108         MOVLW   .5
+0035   00A3           00109         MOVWF   AUX
+                      00110 
+0036                  00111 LOCALIZADOR2
+0036   1706           00112         BSF             S_FAROIS
+0037   2064           00113         CALL    TEMPO
+0038   2064           00114         CALL    TEMPO
+0039   2064           00115         CALL    TEMPO
+003A   2064           00116         CALL    TEMPO
+003B   2064           00117         CALL    TEMPO
+003C   1306           00118         BCF             S_FAROIS
+003D   2064           00119         CALL    TEMPO
+003E   2064           00120         CALL    TEMPO
+003F   2064           00121         CALL    TEMPO
+0040   2064           00122         CALL    TEMPO
+0041   2064           00123         CALL    TEMPO
+Message[305]: Using default destination of 1 (file).
+0042   0BA3           00124         DECFSZ  AUX
+0043   2836           00125         GOTO    LOCALIZADOR2
+0044   01A4           00126         CLRF    DADO_RX
+0045   280C           00127         GOTO    PRINCIPAL
+                      00128 
+0046                  00129 BLOQUEIO
+0046   1586           00130         BSF             S_IGNICAO
+0047   1686           00131         BSF             S_SIRENE
+0048   1706           00132         BSF             S_FAROIS
+0049   2064           00133         CALL    TEMPO
+004A   2064           00134         CALL    TEMPO
+004B   1286           00135         BCF             S_SIRENE
+004C   1306           00136         BCF             S_FAROIS
+004D   2064           00137         CALL    TEMPO
+004E   2064           00138         CALL    TEMPO
+004F   1E8C           00139         BTFSS   PIR1,RCIF                                       ;
+0050   2852           00140         GOTO    DECODIFICA_DESBLOQUEIO          ;
+0051   2846           00141         GOTO    BLOQUEIO
+                      00142 
+0052                  00143 DECODIFICA_DESBLOQUEIO
+                      00144   ; 1-Ativar o alarme; 3-travar portas; 7-destravar portas; 5-obter posição atual; 9-desativar alarme
+0052   2019           00145         CALL    RECEBE
+0053   0824           00146         MOVF    DADO_RX,W
+0054   0782           00147         ADDWF   PCL,F
+0055   2846           00148         GOTO    BLOQUEIO                ;'0'
+0056   2846           00149         GOTO    BLOQUEIO        ;'1'
+0057   2846           00150         GOTO    BLOQUEIO                ;'2'
+0058   2846           00151         GOTO    BLOQUEIO                ;'3'
+0059   2846           00152         GOTO    BLOQUEIO                ;'4'
+005A   2846           00153         GOTO    BLOQUEIO        ;'5'
+005B   2846           00154         GOTO    BLOQUEIO                ;'6'
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+005C   2846           00155         GOTO    BLOQUEIO                ;'7'
+005D   2846           00156         GOTO    BLOQUEIO                ;'8'
+005E   285F           00157         GOTO    DESBLOQUEIO     ;'9'
+                      00158 
+005F                  00159 DESBLOQUEIO     
+005F   1186           00160         BCF             S_IGNICAO
+0060   1286           00161         BCF             S_SIRENE
+0061   1306           00162         BCF             S_FAROIS
+0062   01A4           00163         CLRF    DADO_RX
+0063   280C           00164         GOTO    PRINCIPAL       
+                      00165 
+                      00166 
+                      00167         
+                      00168 
+                      00169 ; ******************************************************************************
+                      00170 ;                                 ROTINAS DE TEMPORIZAÇÃO.
+                      00171 ; ******************************************************************************
+0064                  00172 TEMPO
+0064   30FF           00173         MOVLW   .255                                            
+0065   00A1           00174     MOVWF       T2                                      ;INICIALIZA T2 
+0066   30FF           00175     MOVLW       .255
+0067   00A0           00176     MOVWF       T1                          ;INICIALIZA T1
+0068   0BA0           00177     DECFSZ      T1, F                               ;DECREMENTA T1 E SALTA SE T1 = 0
+0069   2868           00178     GOTO        $-1                                     ;VOLTA UMA LINHA
+006A   0BA1           00179     DECFSZ      T2, F                                           ;DECREMENTA T2 E SALTA SE T2 = 0
+006B   2866           00180     GOTO        $-5                                                     ;VOLTA CINCO LINHAS
+006C   0008           00181     RETURN                              ;RETORNA DA CHAMADA CALL
+                      00182 
+                      00183 
+                      00184 ; ******************************************************************************
+                      00185 ;                               CONFIGURAÇÃO INICIAL.
+                      00186 ; ******************************************************************************
+006D                  00187 INICIO
+006D   1683           00188     BSF         STATUS,RP0              ;VAI PARA O BANCO 1
+006E   3002           00189         MOVLW   B'00000010'
+006F   0086           00190         MOVWF   TRISB                           ;B,1= ENTRADA SERIAL / B,4= BOTÃO TX / B7 - OK
+0070   3003           00191         MOVLW   B'00000011'
+0071   0085           00192         MOVWF   TRISA
+0072   168C           00193         BSF             PIE1,RCIE                       ;HABILITA A INTERRUPÇÃO DE RECEBIMENTO PELA SERI
+                            AL      
+0073   1698           00194         BSF     TXSTA, TXEN             ;HABILITA A TRANSMISSÃO SERIAL
+0074   1498           00195         BSF     TXSTA, TRMT             ;LIMPA O REGISTRADOR DE TRANSMISSÃO
+0075   1518           00196         BSF     TXSTA, BRGH             ;MODO ALTA VELOCIDADE
+0076   304C           00197         MOVLW   .76; .18                        ;18 BAUD RATE PARA 38400 BPS
+0077   0099           00198         MOVWF   SPBRG                           ;
+0078   1283           00199     BCF         STATUS,RP0              ;VOLTA PARA O BANCO 0
+0079   3007           00200         MOVLW   .7                                      ;DESABILITA OS COMPARADORES ANALÓGICOS
+007A   009F           00201         MOVWF   CMCON
+007B   1798           00202         BSF     RCSTA,SPEN                      ;HABILITA A COMUNICAÇÃO SERIAL
+007C   1618           00203         BSF     RCSTA,CREN                      ;HABILITA A RECEPÇÃO CONTÍNUA
+007D   170B           00204         BSF             INTCON,PEIE                     ;HABILITA A INTERRUPÇÃO DOS PERIFÉRICOS
+007E   178B           00205         BSF             INTCON,GIE                      ;HABILITA A INTERRUPÇÃO GERAL
+007F   3002           00206         MOVLW   B'00000010'
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0080   0086           00207         MOVWF   PORTB
+0081   0185           00208         CLRF    PORTA
+0082   01A4           00209         CLRF    DADO_RX
+0083   3005           00210         MOVLW   .5
+0084   00A3           00211         MOVWF   AUX     
+0085   2805           00212     GOTO    AUTO_TESTE          
+                      00213 
+                      00214     END
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADEN                              00000003
+AUTO_TESTE                        00000005
+AUX                               00000023
+BLOQUEIO                          00000046
+BRGH                              00000002
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CREN                              00000004
+CSRC                              00000007
+CTRL_BLOQUEIO                     00000025
+DADO_RX                           00000024
+DC                                00000001
+DECODIFICA                        0000001D
+DECODIFICA_DESBLOQUEIO            00000052
+DESBLOQUEIO                       0000005F
+DESTRAVA_PORTAS                   0000002A
+DISPARO                           00000013
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+E_1                               PORTA,0
+E_2                               PORTA,1
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INICIO                            0000006D
+INTCON                            0000000B
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LOCALIZADOR                       00000034
+LOCALIZADOR2                      00000036
+MONITOR                           PORTB,0
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PRINCIPAL                         0000000C
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RECEBE                            00000019
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+STATUS                            00000003
+SYNC                              00000004
+S_FAROIS                          PORTB,6
+S_IGNICAO                         PORTB,3
+S_PORTA                           PORTB,4
+S_SIRENE                          PORTB,5
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1                                00000020
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2                                00000021
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+T3                                00000022
+TEMPO                             00000064
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRAVA_PORTAS                      0000002F
+TRISA                             00000085
+TRISB                             00000086
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+MPASM  5.37                      SERIAL_1.ASM   10-7-2011  21:21:38         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DATA_CP_OFF                      00003FFF
+_DATA_CP_ON                       00003EFF
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_HS_OSC                           00003FEE
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXX---------- ---------------- ---------------- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   131
+Program Memory Words Free:  1917
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     1 reported,     7 suppressed
+
+

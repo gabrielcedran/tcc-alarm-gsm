@@ -1,0 +1,422 @@
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ; ******************************************************************************
+                      00002 ;                         CONFIGURAÇÃO DO MICROCONTROLADOR.
+                      00003 ; ******************************************************************************
+                      00004     LIST P=16F628A                      ;INFORMA O PIC UTILIZADO. 
+                      00005     INCLUDE   <P16F628A.INC>            ;INCLUSÃO DA BIBLIOTECA.
+                      00001         LIST
+                      00002 ; P16F628A.INC  Standard Header File, Version 1.10    Microchip Technology, Inc.
+                      00265         LIST
+                      00266 
+2007   3F0A           00006     __CONFIG _CP_OFF & _WDT_OFF & _PWRTE_OFF & _BODEN_OFF & _MCLRE_OFF   &   _HS_OSC   &   _LVP_OFF
+                      00007     ERRORLEVEL -302                         ;RETIRA MSG OPERAÇÃO NO BANCO 1.
+                      00008 
+                      00009 ; ******************************************************************************
+                      00010 ;                          DECLARAÇÃO DE VARIÁVEIS E CONSTANTES.
+                      00011 ; ******************************************************************************
+                      00012     
+                      00013     CBLOCK 0X20             
+  00000020            00014         T1                          ;VARIÁVEL AUXILIAR PARA TEMPORIZAÇÃO
+  00000021            00015         T2                          ;"
+  00000022            00016                 T3                                      ;"
+  00000023            00017                 DADO_RX                         ;DADO RECEBIDO PELA SERIAL
+  00000024            00018                 FILTRO
+                      00019     ENDC
+                      00020 
+                      00021     #DEFINE S1          PORTB,0     ;SAÍDA 1
+                      00022                                                                 ;PORTB1 = RX SERIAL
+                      00023                                                                 ;PORTB2 = TX SERIAL                     
+                                    
+                      00024         #DEFINE S2              PORTB,3         ;SAÍDA 2
+                      00025         #DEFINE BTN             PORTB,4         ;ENTRADA
+                      00026         #DEFINE CON_OK  PORTB,7         ;CONEXAO_OK
+                      00027 
+                      00028 ; ******************************************************************************
+                      00029 ;                          VETORES DE RESET E INTERRUPÇÃO.
+                      00030 ; ******************************************************************************
+                      00031 
+0000                  00032     ORG 0X00                                ;A EXECUÇÃO INICIA NESSE ENDEREÇO.
+0000   284E           00033     GOTO   INICIO                       ;VAI PARA A SUB-ROTINA INÍCIO. 
+                      00034         
+0004                  00035     ORG 0X04                                ;VEM NESSE ENDEREÇO COM A INTERRUPÇÃO.
+0004   0009           00036         RETFIE
+                      00037    
+                      00038 ; ******************************************************************************
+                      00039 ;                                 ROTINAS GERAIS.
+                      00040 ; ******************************************************************************
+0005                  00041 MONITOR_PIC                                                     ;PISCA O LEDS 2 VEZES   
+0005   1406           00042         BSF             S1                                              ;LIGA
+0006   2038           00043         CALL    TEMPO_1S                                ;AGUARDA 1 SEGUNDO
+0007   1006           00044         BCF             S1                                              ;DESLIGA
+0008   1586           00045         BSF             S2                                      
+0009   2038           00046         CALL    TEMPO_1S                        
+000A   1186           00047         BCF             S2
+000B   128C           00048         BCF             PIR1,RCIF                               ;LIMPA O BUFFER DE RECEPÇÃO     
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00049 
+000C                  00050 PRINCIPAL
+000C   1E06           00051         BTFSS   BTN                                             
+000D   2013           00052         CALL    BOTAO
+000E   1E8C           00053         BTFSS   PIR1,RCIF
+000F   280C           00054         GOTO    PRINCIPAL
+0010   201C           00055         CALL    RECEBE
+0011   201F           00056         CALL    ACIONA
+0012   280C           00057         GOTO    PRINCIPAL
+                      00058 
+0013                  00059 BOTAO
+0013   3031           00060         MOVLW   '1'
+0014   2017           00061         CALL    TRANSMITE
+0015   2038           00062         CALL    TEMPO_1S
+0016   0008           00063         RETURN
+                      00064 
+0017                  00065 TRANSMITE
+0017   0099           00066         MOVWF   TXREG
+0018   1E0C           00067         BTFSS   PIR1,TXIF
+0019   2818           00068         GOTO    $-1
+001A   2045           00069         CALL    TEMPO_10MS
+001B   0008           00070         RETURN
+                      00071 
+001C                  00072 RECEBE
+001C   081A           00073         MOVF    RCREG,W
+001D   00A3           00074         MOVWF   DADO_RX
+001E   0008           00075         RETURN
+                      00076 
+001F                  00077 ACIONA
+001F   3031           00078         MOVLW   '1'
+0020   0623           00079         XORWF   DADO_RX,W
+0021   1903           00080         BTFSC   STATUS,Z
+0022   2830           00081         GOTO    LIGA_S1
+0023   3032           00082         MOVLW   '2'
+0024   0623           00083         XORWF   DADO_RX,W
+0025   1903           00084         BTFSC   STATUS,Z
+0026   2832           00085         GOTO    DESL_S1
+0027   3033           00086         MOVLW   '3'
+0028   0623           00087         XORWF   DADO_RX,W
+0029   1903           00088         BTFSC   STATUS,Z
+002A   2834           00089         GOTO    LIGA_S2
+002B   3034           00090         MOVLW   '4'
+002C   0623           00091         XORWF   DADO_RX,W
+002D   1903           00092         BTFSC   STATUS,Z
+002E   2836           00093         GOTO    DESL_S2
+002F   0008           00094         RETURN
+                      00095 
+0030                  00096 LIGA_S1
+0030   1406           00097         BSF             S1
+0031   0008           00098         RETURN
+                      00099 
+0032                  00100 DESL_S1
+0032   1006           00101         BCF             S1
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0033   0008           00102         RETURN
+                      00103 
+0034                  00104 LIGA_S2
+0034   1586           00105         BSF             S2
+0035   0008           00106         RETURN
+                      00107 
+0036                  00108 DESL_S2
+0036   1186           00109         BCF             S2
+0037   0008           00110         RETURN                          
+                      00111 
+                      00112 
+                      00113         
+                      00114 
+                      00115 ; ******************************************************************************
+                      00116 ;                                 ROTINAS DE TEMPORIZAÇÃO.
+                      00117 ; ******************************************************************************
+0038                  00118 TEMPO_1S
+0038   3024           00119         MOVLW   .36                                             
+0039   00A2           00120     MOVWF       T3                                      ;INICIALIZA T2
+003A   30A6           00121         MOVLW   .166                                            
+003B   00A1           00122     MOVWF       T2                                      ;INICIALIZA T2 
+003C   30A6           00123     MOVLW       .166
+003D   00A0           00124     MOVWF       T1                          ;INICIALIZA T1
+003E   0BA0           00125     DECFSZ      T1, F                               ;DECREMENTA T1 E SALTA SE T1 = 0
+003F   283E           00126     GOTO        $-1                                     ;VOLTA UMA LINHA
+0040   0BA1           00127     DECFSZ      T2, F                                           ;DECREMENTA T2 E SALTA SE T2 = 0
+0041   283C           00128     GOTO        $-5                                                     ;VOLTA CINCO LINHAS
+0042   0BA2           00129     DECFSZ      T3, F                                           ;DECREMENTA T2 E SALTA SE T2 = 0
+0043   283A           00130     GOTO        $-9                                                     ;VOLTA CINCO LINHAS
+0044   0008           00131     RETURN                              ;RETORNA DA CHAMADA CALL
+                      00132 
+0045                  00133 TEMPO_10MS                                                              ;TEMPO DE 10 MS
+0045   3032           00134         MOVLW   .50                                             
+0046   00A1           00135     MOVWF       T2                                      ;INICIALIZA T2 
+0047   30C7           00136     MOVLW       .199
+0048   00A0           00137     MOVWF       T1                          ;INICIALIZA T1
+0049   0BA0           00138     DECFSZ      T1, F                               ;DECREMENTA T1 E SALTA SE T1 = 0
+004A   2849           00139     GOTO        $-1                                     ;VOLTA UMA LINHA
+004B   0BA1           00140     DECFSZ      T2, F                                           ;DECREMENTA T2 E SALTA SE T2 = 0
+004C   2847           00141     GOTO        $-5                                                     ;VOLTA CINCO LINHAS
+004D   0008           00142     RETURN                              ;RETORNA DA CHAMADA CALL
+                      00143 
+                      00144 ; ******************************************************************************
+                      00145 ;                               CONFIGURAÇÃO INICIAL.
+                      00146 ; ******************************************************************************
+004E                  00147 INICIO
+004E   1506           00148         BSF             PORTB,2 
+004F   1683           00149     BSF         STATUS,RP0              ;VAI PARA O BANCO 1
+0050   3092           00150         MOVLW   B'10010010'
+0051   0086           00151         MOVWF   TRISB                           ;B,1= ENTRADA SERIAL / B,4= BOTÃO TX / B7 - OK
+0052   0185           00152         CLRF    TRISA
+0053   1698           00153         BSF     TXSTA, TXEN             ;HABILITA A TRANSMISSÃO SERIAL
+0054   1498           00154         BSF     TXSTA, TRMT             ;LIMPA O REGISTRADOR DE TRANSMISSÃO
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0055   1518           00155         BSF     TXSTA, BRGH             ;MODO ALTA VELOCIDADE
+0056   304C           00156         MOVLW   .76; .18                                ;18 BAUD RATE PARA 38400 BPS
+0057   0099           00157         MOVWF   SPBRG                           ;
+0058   1283           00158     BCF         STATUS,RP0              ;VOLTA PARA O BANCO 0
+0059   3007           00159         MOVLW   .7                                      ;DESABILITA OS COMPARADORES ANALÓGICOS
+005A   009F           00160         MOVWF   CMCON
+005B   1798           00161         BSF     RCSTA,SPEN                      ;HABILITA A COMUNICAÇÃO SERIAL
+005C   1618           00162         BSF     RCSTA,CREN                      ;HABILITA A RECEPÇÃO CONTÍNUA
+005D   2805           00163     GOTO    MONITOR_PIC         
+                      00164 
+                      00165     END
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACIONA                            0000001F
+ADEN                              00000003
+BOTAO                             00000013
+BRGH                              00000002
+BTN                               PORTB,4
+C                                 00000000
+C1INV                             00000004
+C1OUT                             00000006
+C2INV                             00000005
+C2OUT                             00000007
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCPR1H                            00000016
+CCPR1L                            00000015
+CIS                               00000003
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             0000001F
+CMIE                              00000006
+CMIF                              00000006
+CON_OK                            PORTB,7
+CREN                              00000004
+CSRC                              00000007
+DADO_RX                           00000023
+DC                                00000001
+DESL_S1                           00000032
+DESL_S2                           00000036
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FERR                              00000002
+FILTRO                            00000024
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INICIO                            0000004E
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+LIGA_S1                           00000030
+LIGA_S2                           00000034
+MONITOR_PIC                       00000005
+NOT_BO                            00000000
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OERR                              00000001
+OPTION_REG                        00000081
+OSCF                              00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PORTA                             00000005
+PORTB                             00000006
+PR2                               00000092
+PRINCIPAL                         0000000C
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RBIE                              00000003
+RBIF                              00000000
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RECEBE                            0000001C
+RP0                               00000005
+RP1                               00000006
+RX9                               00000006
+RX9D                              00000000
+S1                                PORTB,0
+S2                                PORTB,3
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+STATUS                            00000003
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1                                00000020
+T1CKPS0                           00000004
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T1CKPS1                           00000005
+T1CON                             00000010
+T1OSCEN                           00000003
+T2                                00000021
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+T3                                00000022
+TEMPO_10MS                        00000045
+TEMPO_1S                          00000038
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRANSMITE                         00000017
+TRISA                             00000085
+TRISB                             00000086
+TRMT                              00000001
+TX9                               00000006
+TX9D                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             0000009F
+VREN                              00000007
+VROE                              00000006
+VRR                               00000005
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+MPASM  5.36                      SERIAL_1.ASM   3-24-2011  17:30:31         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_CP_OFF                           00003FFF
+_CP_ON                            00001FFF
+_DATA_CP_OFF                      00003FFF
+_DATA_CP_ON                       00003EFF
+_ER_OSC_CLKOUT                    00003FFF
+_ER_OSC_NOCLKOUT                  00003FFE
+_EXTCLK_OSC                       00003FEF
+_HS_OSC                           00003FEE
+_INTOSC_OSC_CLKOUT                00003FFD
+_INTOSC_OSC_NOCLKOUT              00003FFC
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FEC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC_CLKOUT                    00003FFF
+_RC_OSC_NOCLKOUT                  00003FFE
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FED
+__16F628A                         00000001
+__DEBUG                           1
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXX-- ---------------- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    91
+Program Memory Words Free:  1957
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     6 suppressed
+
+
