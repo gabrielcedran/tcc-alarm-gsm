@@ -1,0 +1,225 @@
+08/08/2011 23:05:46 org.apache.catalina.core.AprLifecycleListener init
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: C:\Program Files\Java\jdk1.6.0_23\bin;.;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;D:\Programacao\Android\android-sdk-windows\tools;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Java\jdk1.6.0_23\bin;C:\Program Files\Windows Live\Shared;C:\Windows\System32\WindowsPowerShell\v1.0\
+08/08/2011 23:05:48 org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-bio-8080"]
+08/08/2011 23:05:48 org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["ajp-bio-8009"]
+08/08/2011 23:05:48 org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 2791 ms
+08/08/2011 23:05:48 org.apache.catalina.core.StandardService startInternal
+INFO: Starting service Catalina
+08/08/2011 23:05:48 org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/7.0.19
+08/08/2011 23:05:48 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory alarmeAndroid
+08/08/2011 23:05:49 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_08-b06-FCS) for context '/alarmeAndroid'
+08/08/2011 23:05:50 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:05:51 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory alarmeAndroid2
+08/08/2011 23:05:52 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_08-b06-FCS) for context '/alarmeAndroid2'
+08/08/2011 23:05:53 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:05:54 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:05:54 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:05:54 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:05:54 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:05:54 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:05:54 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:05:54 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory alarmeAndroid3
+08/08/2011 23:05:55 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_08-b06-FCS) for context '/alarmeAndroid3'
+08/08/2011 23:05:56 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:05:57 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:05:57 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:05:57 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:05:57 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:05:57 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:05:57 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:05:57 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory AlarmeAndroid4
+08/08/2011 23:05:58 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_14-b01-FCS) for context '/AlarmeAndroid4'
+08/08/2011 23:05:59 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:06:00 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:06:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:06:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:06:00 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:06:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:06:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:06:00 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory docs
+08/08/2011 23:06:00 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory examples
+08/08/2011 23:06:00 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory host-manager
+08/08/2011 23:06:00 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory manager
+08/08/2011 23:06:00 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory ROOT
+08/08/2011 23:06:00 org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-bio-8080"]
+08/08/2011 23:06:00 org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["ajp-bio-8009"]
+08/08/2011 23:06:00 org.apache.catalina.startup.Catalina start
+INFO: Server startup in 12425 ms
+08/08/2011 23:08:01 org.apache.jasper.compiler.TldLocationsCache tldScanJar
+INFO: At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08/08/2011 23:13:51 org.apache.catalina.startup.Catalina stopServer
+GRAVE: Catalina.stop: 
+java.net.ConnectException: Connection refused: connect
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.PlainSocketImpl.doConnect(PlainSocketImpl.java:333)
+	at java.net.PlainSocketImpl.connectToAddress(PlainSocketImpl.java:195)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:182)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:366)
+	at java.net.Socket.connect(Socket.java:529)
+	at java.net.Socket.connect(Socket.java:478)
+	at java.net.Socket.<init>(Socket.java:375)
+	at java.net.Socket.<init>(Socket.java:189)
+	at org.apache.catalina.startup.Catalina.stopServer(Catalina.java:457)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at org.apache.catalina.startup.Bootstrap.stopServer(Bootstrap.java:371)
+	at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:452)
+08/08/2011 23:13:54 org.apache.catalina.core.AprLifecycleListener init
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: C:\Program Files\Java\jdk1.6.0_23\bin;.;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;D:\Programacao\Android\android-sdk-windows\tools;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Java\jdk1.6.0_23\bin;C:\Program Files\Windows Live\Shared;C:\Windows\System32\WindowsPowerShell\v1.0\
+08/08/2011 23:13:54 org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["http-bio-8080"]
+08/08/2011 23:13:54 org.apache.coyote.AbstractProtocol init
+INFO: Initializing ProtocolHandler ["ajp-bio-8009"]
+08/08/2011 23:13:54 org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 651 ms
+08/08/2011 23:13:54 org.apache.catalina.core.StandardService startInternal
+INFO: Starting service Catalina
+08/08/2011 23:13:54 org.apache.catalina.core.StandardEngine startInternal
+INFO: Starting Servlet Engine: Apache Tomcat/7.0.19
+08/08/2011 23:13:54 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory AlarmeAndroid
+08/08/2011 23:13:56 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_14-b01-FCS) for context '/AlarmeAndroid'
+08/08/2011 23:13:57 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:13:58 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:13:58 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:13:58 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:13:58 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:13:58 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:13:58 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:13:58 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory alarmeAndroid2
+08/08/2011 23:13:59 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_08-b06-FCS) for context '/alarmeAndroid2'
+08/08/2011 23:13:59 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:14:00 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:14:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:14:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:14:00 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:14:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:14:00 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:14:00 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory alarmeAndroid3
+08/08/2011 23:14:01 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_08-b06-FCS) for context '/alarmeAndroid3'
+08/08/2011 23:14:02 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:14:02 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:14:02 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:14:02 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:14:02 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:14:02 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:14:02 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:14:02 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory AlarmeAndroid4
+08/08/2011 23:14:03 com.sun.faces.config.ConfigureListener contextInitialized
+INFO: Initializing Mojarra (1.2_14-b01-FCS) for context '/AlarmeAndroid4'
+08/08/2011 23:14:04 com.sun.faces.spi.InjectionProviderFactory createInstance
+INFO: JSF1048: PostConstruct/PreDestroy annotations present.  ManagedBeans methods marked with these annotations will have said annotations processed.
+08/08/2011 23:14:05 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:14:05 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:14:05 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:14:05 org.ajax4jsf.cache.CacheManager getCacheFactory
+INFO: Selected [org.ajax4jsf.cache.LRUMapCacheFactory] cache factory
+08/08/2011 23:14:05 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance using parameters: {facelets.DEVELOPMENT=true, org.richfaces.SKIN=blueSky, facelets.REFRESH_PERIOD=2, javax.faces.STATE_SAVING_METHOD=server, javax.faces.DEFAULT_SUFFIX=.jsp}
+08/08/2011 23:14:05 org.ajax4jsf.cache.LRUMapCacheFactory createCache
+INFO: Creating LRUMap cache instance of default capacity
+08/08/2011 23:14:05 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory docs
+08/08/2011 23:14:05 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory examples
+08/08/2011 23:14:05 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory host-manager
+08/08/2011 23:14:05 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory manager
+08/08/2011 23:14:05 org.apache.catalina.startup.HostConfig deployDirectory
+INFO: Deploying web application directory ROOT
+08/08/2011 23:14:05 org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-bio-8080"]
+08/08/2011 23:14:05 org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["ajp-bio-8009"]
+08/08/2011 23:14:05 org.apache.catalina.startup.Catalina start
+INFO: Server startup in 11144 ms
+08/08/2011 23:14:07 org.apache.catalina.core.StandardServer await
+INFO: A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+08/08/2011 23:14:07 org.apache.coyote.AbstractProtocol pause
+INFO: Pausing ProtocolHandler ["http-bio-8080"]
+08/08/2011 23:14:08 org.apache.coyote.AbstractProtocol pause
+INFO: Pausing ProtocolHandler ["ajp-bio-8009"]
+08/08/2011 23:14:09 org.apache.catalina.core.StandardService stopInternal
+INFO: Stopping service Catalina
+08/08/2011 23:14:10 org.apache.coyote.AbstractProtocol stop
+INFO: Stopping ProtocolHandler ["http-bio-8080"]
+08/08/2011 23:14:10 org.apache.coyote.AbstractProtocol stop
+INFO: Stopping ProtocolHandler ["ajp-bio-8009"]
+08/08/2011 23:14:10 org.apache.coyote.AbstractProtocol destroy
+INFO: Destroying ProtocolHandler ["http-bio-8080"]
+08/08/2011 23:14:10 org.apache.coyote.AbstractProtocol destroy
+INFO: Destroying ProtocolHandler ["ajp-bio-8009"]
